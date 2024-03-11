@@ -6,13 +6,27 @@
     <h1>Create category</h1>
     <div class="mb-4">
         {{-- TODO: Link --}}
-        <a href="#"><i class="fas fa-long-arrow-alt-left"></i> Back to the homepage</a>
+        <a href="."><i class="fas fa-long-arrow-alt-left"></i> Back to the homepage</a>
     </div>
 
     {{-- TODO: Session flashes --}}
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @error('name')
+                <li>{{$message}}</li>
+            @enderror
+            @error('style')
+                <li>{{$message}}</li>
+            @enderror
+        </ul>
+    </div>       
+    @endif
+
 
     {{-- TODO: action, method --}}
-    <form>
+    <form method="post" action="{{route('categories.store')}}">
+        @csrf
 
         <div class="form-group row mb-3">
             <label for="name" class="col-sm-2 col-form-label">Name*</label>
@@ -24,7 +38,7 @@
         <div class="form-group row mb-3">
             <label for="style" class="col-sm-2 col-form-label py-0">Style*</label>
             <div class="col-sm-10">
-                @foreach (['primary', 'secondary','danger', 'warning', 'info', 'dark'] as $style)
+                @foreach (\App\Models\Category::styles() as $style)
                     <div class="form-check">
                         <input
                             class="form-check-input"

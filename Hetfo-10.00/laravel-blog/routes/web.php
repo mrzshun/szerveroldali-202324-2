@@ -1,7 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Category;
+use App\Models\Post;
+use App\Models\User;
 
+use App\Http\Controllers\CategoryController;
+ 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,11 +20,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/posts');
 });
 
 Route::get('/posts', function () {
-    return view('posts.index');
+    return view('posts.index',[
+        'users' => User::all(),
+        'posts' => Post::all(),
+        'categories' => Category::all(),
+    ]);
 });
 
 Route::get('/posts/create', function () {
@@ -35,13 +45,17 @@ Route::get('/posts/x/edit', function () {
 
 // -----------------------------------------
 
-Route::get('/categories/create', function () {
-    return view('categories.create');
-});
+// Route::get('/categories/create', function () {
+//     return view('categories.create');
+// });
 
-Route::get('/categories/x', function () {
-    return view('categories.show');
-});
+// Route::get('/categories/x', function () {
+//     return view('categories.show');
+// });
+
+
+Route::resource('categories', CategoryController::class);
+
 
 // -----------------------------------------
 
