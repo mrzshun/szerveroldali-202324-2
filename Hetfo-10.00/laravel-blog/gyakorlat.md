@@ -69,3 +69,17 @@ http://webprogramozas.inf.elte.hu/#!/subjects/webprog-server/handouts/laravel-04
 https://laravel.com/docs/10.x/eloquent-relationships#one-to-many
 
 Seedelés kapcsolatokkal együtt
+
+Laravel alkalmazás telepítése:
+1. Git clone utasítással telepítés, kimásolva az URL-t a Githubról
+    git clone git@github.com:mrzshun/szerveroldali-202324-2.git
+2. Composerrel a szükséges package-ek telepítése a laravel-blog könyvtár gyökerében
+    composer install
+3. .env fájl létrehozása, minden átmásolása a .env.example fájlból, DE az adatbázisnál figyeljünk, hogy sqlite legyen.
+    még nem fog menni az alkalmazás, mert: "APP_KEY=" sor van
+4. Alkalmazáskulcs generálása
+    php artisan key:generate
+5. Webszerver elindítása
+    php artisan serve
+
+

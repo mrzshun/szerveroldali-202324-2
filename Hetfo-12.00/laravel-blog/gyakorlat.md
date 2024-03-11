@@ -55,3 +55,17 @@ Feladat:
 
 https://laravel.com/docs/10.x/eloquent-relationships#main-content
 
+Note: projekt letöltése és telepítése
+1. git clone git@github.com:mrzshun/szerveroldali-202324-2.git
+2. csomagok telepítése
+    composer install
+3. .env fájl létrehozása üresen, átmásolni mindent a .env.example-ből
+    db connection-t ellenőrizni, sqlite legyen! - én most átírom a .env.example-ben is, tehát nem kell csinálni semmit
+4. alkalmazáskulcs generálása
+    php artisan key:generate
+5. webszerver elindítás 
+    php artisan serve
+
+
+https://github.com/szerveroldali/blog_basic_assets
+

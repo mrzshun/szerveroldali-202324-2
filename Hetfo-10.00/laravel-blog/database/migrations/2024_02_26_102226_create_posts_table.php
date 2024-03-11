@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('description');
             $table->boolean('hidden')->default(false);
             $table->unsignedBigInteger('author_id')->nullable();
+            $table->foreign("author_id")->references("id")->on("users")->onDelete("cascade");
         });
     }
 

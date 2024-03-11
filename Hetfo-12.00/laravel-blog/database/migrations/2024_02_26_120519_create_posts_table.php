@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('description');
             $table->text('text');
             $table->boolean('hidden')->default(false);
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('author_id')->nullable();
+            $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
