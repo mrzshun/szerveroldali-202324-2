@@ -13,4 +13,7 @@ class Category extends Model
     {
         return $this->belongsToMany(Post::class)->withTimestamps();
     }
+    public static function styles() {
+        return ['primary','secondary','success','danger','warning','info','dark'];
+    }
 }

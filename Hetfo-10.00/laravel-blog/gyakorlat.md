@@ -82,4 +82,13 @@ Laravel alkalmazás telepítése:
 5. Webszerver elindítása
     php artisan serve
 
+Frontend
+
+https://lodash.com/
+https://axios-http.com/docs/intro
+https://getbootstrap.com/docs/5.0/getting-started/introduction/ 
+
+CSRF támadás, CSRF Laravel direktíva
+https://owasp.org/www-community/attacks/csrf
+https://laravel.com/docs/10.x/csrf
 
