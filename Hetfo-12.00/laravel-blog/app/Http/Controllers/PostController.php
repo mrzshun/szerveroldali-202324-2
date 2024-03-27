@@ -5,6 +5,8 @@ use App\Models\Category;
 use App\Models\User;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+
 
 class PostController extends Controller
 {
@@ -25,7 +27,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        return view('posts.create',[
+            'categories' => Category::all(),
+        ]);
     }
 
     /**
@@ -33,7 +37,23 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate(
+            [
+                'title' => 'required',
+                'description' => 'required',
+                'text' => 'required',
+                'categories' => 'nullable|array',
+                'categories.*' => 'numeric|integer|exists:categories,id'
+            ],
+        );
+        $post = Post::factory()->create([
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'text' => $validated['text'],
+        ]);
+        $post->categories()->sync($validated['categories']);
+        Session::flash('post_created');
+        return redirect()->route('posts.create');
     }
 
     /**

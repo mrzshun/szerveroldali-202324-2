@@ -41,7 +41,7 @@
                                     <span class="me-2">
                                         <i class="fas fa-user"></i>
                                         {{-- TODO: Author --}}
-                                        <span>{{$post->author->name}}</span>
+                                        <span>{{isset($post->author->name) ? $post->author->name : ""}}</span>
                                     </span>
 
                                     <span>

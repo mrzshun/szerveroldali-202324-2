@@ -11,7 +11,7 @@
             <div class="float-lg-end">
                 {{-- TODO: Links, policy --}}
 
-                <a href="#" role="button" class="btn btn-sm btn-success mb-1"><i class="fas fa-plus-circle"></i> Create post</a>
+                <a href="{{route('posts.create')}}" role="button" class="btn btn-sm btn-success mb-1"><i class="fas fa-plus-circle"></i> Create post</a>
 
                 <a href="{{route('categories.create')}}" role="button" class="btn btn-sm btn-success mb-1"><i class="fas fa-plus-circle"></i> Create category</a>
 

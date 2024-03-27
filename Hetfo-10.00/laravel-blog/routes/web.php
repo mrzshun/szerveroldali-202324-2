@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\User;
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PostController;
  
 /*
 |--------------------------------------------------------------------------
@@ -23,25 +24,25 @@ Route::get('/', function () {
     return redirect('/posts');
 });
 
-Route::get('/posts', function () {
-    return view('posts.index',[
-        'users' => User::all(),
-        'posts' => Post::all(),
-        'categories' => Category::all(),
-    ]);
-});
+// Route::get('/posts', function () {
+//     return view('posts.index',[
+//         'users' => User::all(),
+//         'posts' => Post::all(),
+//         'categories' => Category::all(),
+//     ]);
+// });
 
-Route::get('/posts/create', function () {
-    return view('posts.create');
-});
+// Route::get('/posts/create', function () {
+//     return view('posts.create');
+// });
 
-Route::get('/posts/x', function () {
-    return view('posts.show');
-});
+// Route::get('/posts/x', function () {
+//     return view('posts.show');
+// });
 
-Route::get('/posts/x/edit', function () {
-    return view('posts.edit');
-});
+// Route::get('/posts/x/edit', function () {
+//     return view('posts.edit');
+// });
 
 // -----------------------------------------
 
@@ -55,6 +56,7 @@ Route::get('/posts/x/edit', function () {
 
 
 Route::resource('categories', CategoryController::class);
+Route::resource('posts', PostController::class);
 
 
 // -----------------------------------------

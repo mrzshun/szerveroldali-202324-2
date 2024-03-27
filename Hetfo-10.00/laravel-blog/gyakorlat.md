@@ -92,3 +92,11 @@ CSRF támadás, CSRF Laravel direktíva
 https://owasp.org/www-community/attacks/csrf
 https://laravel.com/docs/10.x/csrf
 
+
+Validáció
+https://laravel.com/docs/10.x/validation
+https://laravel.com/docs/10.x/validation#available-validation-rules
+
+Bootstrap validáció
+
+https://getbootstrap.com/docs/5.0/forms/validation/
