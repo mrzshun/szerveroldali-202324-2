@@ -9,7 +9,13 @@
             <a href="."><i class="fas fa-long-arrow-alt-left"></i> Back to the homepage</a>
         </div>
 
-        <form method="post" action="{{ route('posts.store') }}">
+        @if (Session::has('post_created'))
+            <div class="alert alert-success">
+                Post created with the following data: {title: {{ session('post_created') }} }
+            </div>
+        @endif
+
+        <form method="post" action="{{ route('posts.store') }}" enctype="multipart/form-data">
             @csrf
 
             {{-- TODO: Validation --}}
@@ -66,35 +72,38 @@
                 <label for="categories" class="col-sm-2 col-form-label py-0">Categories</label>
                 <div class="col-sm-10">
                     {{-- TODO: Read post categories from DB --}}
-                    @forelse ($categories as $category)
-                        <div class="form-check">
-                            <input type="checkbox"
-                                class="form-check-input @error('categories.*') is-invalid @enderror"
-                                name=categories[]
-                                value="{{ $category->id }}"
-                                id="{{ $category->id }}"
-                                @checked(in_array($category->id, old('categories',[])))
-                            >
-                            {{-- TODO --}}
-                            <label for="{{ $category }}" class="form-check-label">
-                                <span class="badge bg-{{ $category->style }}">{{ $category->name }}</span>
-                            </label>
-                            @if ($loop->last)
-                                @error('categories.*')
-                                    <div class="invalid-feedback">
-                                        <ul>
-                                        @foreach ($errors->get('categories.*') as $error)
-                                            <li>{{$error[0]}}</li>
-                                        @endforeach
-                                        </ul>
-                                    </div>
-                                @enderror
-                            @endif
+                    <div class="row">
+                        @forelse ($categories->chunk(2) as $chunk)
+                            <div class="col-6 col-md-3 col-lg2 border">
+                                @foreach ($chunk as $category)
+                                    <div class="form-check">
+                                        <input type="checkbox"
+                                            class="form-check-input @error('categories.*') is-invalid @enderror"
+                                            name=categories[] value="{{ $category->id }}" id="{{ $category->id }}"
+                                            @checked(in_array($category->id, old('categories', [])))>
+                                        {{-- TODO --}}
+                                        <label for="{{ $category }}" class="form-check-label">
+                                            <span class="badge bg-{{ $category->style }}">{{ $category->name }}</span>
+                                        </label>
+                                        @if ($loop->last)
+                                            @error('categories.*')
+                                                <div class="invalid-feedback">
+                                                    <ul>
+                                                        @foreach ($errors->get('categories.*') as $error)
+                                                            <li>{{ $error[0] }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @enderror
+                                        @endif
 
-                        </div>
-                    @empty
-                        <p>No categories found</p>
-                    @endforelse
+                                    </div>
+                                @endforeach
+                            </div>
+                        @empty
+                            <p>No categories found</p>
+                        @endforelse
+                    </div>
                 </div>
             </div>
 
@@ -104,11 +113,18 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-12 mb-3">
-                                <input type="file" class="form-control-file" id="cover_image" name="cover_image">
+                                <input type="file" class="form-control-file @error('cover_image') is-invalid @enderror"
+                                    id="cover_image" name="cover_image">
+                                @error('cover_image')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+
                             </div>
                             <div id="cover_preview" class="col-12 d-none">
                                 <p>Cover preview:</p>
-                                <img id="cover_preview_image" src="#" alt="Cover preview">
+                                <img id="cover_preview_image" src="#" alt="Cover preview" width="300px">
                             </div>
                         </div>
                     </div>

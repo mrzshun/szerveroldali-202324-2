@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
@@ -32,6 +33,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        if(!Auth::check()) {
+            return redirect('posts');
+        }
         $validated = $request->validate(
             [
                 'name' => 'required|min:5|max:32',

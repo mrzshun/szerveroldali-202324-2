@@ -69,3 +69,10 @@ Note: projekt letöltése és telepítése
 
 https://github.com/szerveroldali/blog_basic_assets
 
+Bootstrap validation feedback
+https://getbootstrap.com/docs/5.0/forms/validation/
+
+Laravel validation:
+https://laravel.com/docs/10.x/validation#available-validation-rules
+
+

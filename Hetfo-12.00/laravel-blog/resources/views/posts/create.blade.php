@@ -2,21 +2,18 @@
 @section('title', 'Create post')
 
 @section('content')
-    <div class="container">
+<div class="container">
+        @if (Auth::check())
+
         <h1>Create post</h1>
         <div class="mb-4">
             {{-- TODO: Link --}}
             <a href="."><i class="fas fa-long-arrow-alt-left"></i> Back to the homepage</a>
         </div>
 
-        @if (Session::has('post_created'))
-            <div class="alert alert-success">
-                Sikeresen létrehoztuk a Postot!
-            </div>
-        @endif
 
         {{-- TODO: action, method, enctype --}}
-        <form method="post" action="{{ route('posts.store') }}">
+        <form method="post" action="{{ route('posts.store') }}" enctype="multipart/form-data">
             @csrf
 
             {{-- TODO: Validation --}}
@@ -75,7 +72,7 @@
                     <div class="row">
                         {{-- TODO: Read post categories from DB --}}
                         @forelse ($categories->chunk(2) as $chunks)
-                            <div class="col-6 col-md-3 col-lg2">
+                            <div class="col-6 col-md-4 col-lg2 border">
                                 @foreach ($chunks as $category)
                                     <div class="form-check">
                                         <input type="checkbox"
@@ -109,11 +106,16 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-12 mb-3">
-                                <input type="file" class="form-control-file" id="cover_image" name="cover_image">
-                            </div>
+                                <input type="file" class="form-control-file @error('cover_image') is-invalid @enderror" id="cover_image" name="cover_image">
+                                @error('cover_image')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+            </div>
                             <div id="cover_preview" class="col-12 d-none">
                                 <p>Cover preview:</p>
-                                <img id="cover_preview_image" src="#" alt="Cover preview">
+                                <img id="cover_preview_image" src="#" alt="Cover preview" width="300px">
                             </div>
                         </div>
                     </div>
@@ -124,6 +126,11 @@
                 <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Store</button>
             </div>
         </form>
+        @else
+        <h1>You have to log in to post!</h1>
+
+        @endif
+
     </div>
 @endsection
 

@@ -30,7 +30,7 @@
                     <div class="col-12 col-md-6 col-lg-4 mb-3 d-flex align-self-stretch">
                         <div class="card w-100">
                             <img
-                                src="{{ asset('images/default_post_cover.jpg') }}"
+                                src="{{ isset($post->cover_image_path) ? 'storage/'.$post->cover_image_path : asset('images/default_post_cover.jpg') }}"
                                 class="card-img-top"
                                 alt="Post cover"
                             >
@@ -41,7 +41,7 @@
                                     <span class="me-2">
                                         <i class="fas fa-user"></i>
                                         {{-- TODO: Author --}}
-                                        <span>{{$post->author->name}}</span>
+                                        <span>{{isset($post->author) ? $post->author->name : "unknown author"}}</span>
                                     </span>
 
                                     <span>
@@ -63,7 +63,7 @@
                             </div>
                             <div class="card-footer">
                                 {{-- TODO: Link --}}
-                                <a href="#" class="btn btn-primary">
+                                <a href="{{route('posts.show',$post)}}" class="btn btn-primary">
                                     <span>View post</span> <i class="fas fa-angle-right"></i>
                                 </a>
                             </div>

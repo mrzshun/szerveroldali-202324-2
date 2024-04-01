@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
-
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -37,23 +40,47 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        if(!Auth::check()){
+            return redirect()->route('posts.index');
+        }
         $validated = $request->validate(
             [
                 'title' => 'required',
                 'description' => 'required',
                 'text' => 'required',
                 'categories' => 'nullable|array',
-                'categories.*' => 'numeric|integer|exists:categories,id'
+                'categories.*' => 'numeric|integer|exists:categories,id',
+                'cover_image' => 'file|mimes:jpg,png|max:2048',
             ]
         );
-        return redirect()->route('posts.create');
+        $cover_image_path = '';
+        if($request->hasFile('cover_image')) {
+            $file = $request->file('cover_image');
+            $cover_image_path = 'cover_image_'.Str::random(10).'.'.$file->getClientOriginalExtension();
+            Storage::disk('public')->put(
+                $cover_image_path,$file->get()
+            );
+        }
+        $post = Post::factory()->create([
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'text' => $validated['text'],
+            'cover_image_path' => $cover_image_path,
+            'author_id' => $request->user()->id,
+        ]);
+        $post->categories()->sync($validated['categories']);
+        Session::flash('post_created',$validated['title']);
+        return redirect()->route('posts.show',$post);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Post $post)
     {
+        return view('posts.show', [
+            'post' => $post,
+        ]);
         //
     }
 
@@ -76,8 +103,11 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Post $post)
     {
-        //
+        $this->authorize('delete',$post);
+        Session::flash('post_deleted',$post['title']);
+        $post->delete();
+        return redirect()->route('posts.index');
     }
 }
