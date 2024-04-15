@@ -9,12 +9,6 @@
             <a href="."><i class="fas fa-long-arrow-alt-left"></i> Back to the homepage</a>
         </div>
 
-        @if (Session::has('post_created'))
-            <div class="alert alert-success">
-                Post created with the following data: {title: {{ session('post_created') }} }
-            </div>
-        @endif
-
         <form method="post" action="{{ route('posts.store') }}" enctype="multipart/form-data">
             @csrf
 

@@ -5,7 +5,16 @@
 @section('content')
     <div class="container">
 
-        {{-- TODO: Session flashes --}}
+        @if (Session::has('post_created'))
+            <div class="alert alert-success">
+                Post created with the following data: {title: {{ session('post_created') }} }
+            </div>
+        @endif
+        @if (Session::has('post_updated'))
+            <div class="alert alert-success">
+                Post is updated with the following data: {title: {{ session('post_updated') }} }
+            </div>
+        @endif
 
         <div class="row justify-content-between">
             <div class="col-12 col-md-8">
@@ -41,8 +50,10 @@
                 <div class="float-lg-end">
 
                     {{-- TODO: Links, policy --}}
-                    <a role="button" class="btn btn-sm btn-primary" href="#"><i class="far fa-edit"></i> Edit
-                        post</a>
+                    @can('update', $post)
+                        <a role="button" class="btn btn-sm btn-primary" href="{{route('posts.edit',$post)}}"><i class="far fa-edit"></i> Edit
+                            post</a>
+                    @endcan
 
                     @can('delete', $post)
                         <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete-confirm-modal"><i
@@ -87,7 +98,7 @@
         </div>
 
         <img id="cover_preview_image" {{-- TODO: Cover --}}
-            src="{{ isset($post->cover_image_path) ? '/storage/'.$post->cover_image_path : asset('images/default_post_cover.jpg') }}"
+            src="{{ isset($post->cover_image_path) ? '/storage/' . $post->cover_image_path : asset('images/default_post_cover.jpg') }}"
             alt="Cover preview" class="my-3">
 
         <div class="mt-3">

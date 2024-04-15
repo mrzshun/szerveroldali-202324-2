@@ -100,3 +100,8 @@ https://laravel.com/docs/10.x/validation#available-validation-rules
 Bootstrap validáció
 
 https://getbootstrap.com/docs/5.0/forms/validation/
+
+
+Laravel helperek listája
+
+https://laravel.com/docs/10.x/helpers

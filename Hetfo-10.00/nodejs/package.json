@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "cowsay": "^1.6.0",
+    "is-odd": "^3.0.1"
+  }
+}

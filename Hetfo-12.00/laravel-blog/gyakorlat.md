@@ -76,3 +76,4 @@ Laravel validation:
 https://laravel.com/docs/10.x/validation#available-validation-rules
 
 
+https://laravel.com/docs/10.x/helpers
