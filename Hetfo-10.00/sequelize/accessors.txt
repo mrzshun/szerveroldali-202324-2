@@ -1,0 +1,16 @@
+User:
+  get: User.getPosts(...)
+  set: User.setPosts(...)
+  addMultiple: User.addPosts(...)
+  add: User.addPost(...)
+  create: User.createPost(...)
+  remove: User.removePost(...)
+  removeMultiple: User.removePosts(...)
+  hasSingle: User.hasPost(...)
+  hasAll: User.hasPosts(...)
+  count: User.countPosts(...)
+Post:
+  get: Post.getUser(...)
+  set: Post.setUser(...)
+  create: Post.createUser(...)
+Category:
