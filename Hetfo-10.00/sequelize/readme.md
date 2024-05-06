@@ -34,4 +34,35 @@ https://fastify.dev/docs/latest/Reference/Validation-and-Serialization/
 https://regex101.com/
 
 
+JWT
+https://jwt.io/
+
+jwt plugin installálása
+https://www.npmjs.com/package/@fastify/jwt
+
+jwt token generálása /login végponton
+
+generált JWT token beküldése a requesttel együtt - Firecamp/Auth/Bearer-be másolás
+
+minden végpont generálása onRequest hook-kal
+
+fastify.authenticate decorator hozzáadása
+
+who védett végpont létrehozása
+
+Post / categories - védett végpont, de bárki aki authentikált elérheti
+
+Feladat - gyakorlás
+Post modellhez rest api készítés - minimum get, post, put
+Get: bárki eléri
+Post: védett végpont, authentikáltak hívhatják
+Put: védett végpont, a poszt szerzője frissítheti a posztot
+// Videóban feltesztem
+
+GRAPHQL
+https://graphql.org/
+
+
+
+
 

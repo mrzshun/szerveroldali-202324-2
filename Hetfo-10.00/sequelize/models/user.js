@@ -1,4 +1,5 @@
 'use strict';
+const md5 = require('md5');
 const {
   Model
 } = require('sequelize');
@@ -12,6 +13,18 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       User.hasMany(models.Post);
+    }
+
+    checkPassword(password) {
+      return md5(password) == this.password;
+    }
+
+    toJSON() {
+      const data = this.get();
+      delete data.password;
+      delete data.createdAt;
+      delete data.updatedAt;
+      return data;
     }
   }
   User.init({
