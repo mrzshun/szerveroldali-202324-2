@@ -1,0 +1,9 @@
+mutation {
+   createCategory(category: {
+    name: "GQL new category name",
+    color: "#00df23"
+  }) {
+    id,
+    name,
+  }
+}

@@ -14,6 +14,9 @@ fastify.register(mercurius, {
     schema: readFileSync('./graphql/schema.gql').toString(),
     resolvers: require('./graphql/resolvers'),
     graphiql: true,
+    context: (request) => {
+        return { request };
+    }
 })
 
 fastify.register(require('@fastify/jwt'), {
