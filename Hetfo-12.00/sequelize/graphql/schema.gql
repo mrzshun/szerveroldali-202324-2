@@ -1,0 +1,5 @@
+type Query {
+    add(x: Int, y: Int): Int
+    hello: String
+    hello2: String
+}

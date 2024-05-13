@@ -78,28 +78,33 @@ const { Op } = require("sequelize");
     //     )
     // );
 
-    console.log(
-        JSON.stringify(
-            await Post.findAll({
-                // A bejegyzés minden mezőjét lekérjük, kivéve a timestamp-eket
-                attributes: {
-                    exclude: ["createdAt", "updatedAt"],
-                },
-                include: [
-                    {
-                        model: Category,
-                        // Megköveteljük, hogy a szülőhöz tartozzon a gyerek (Post-hoz a Category, hiszen a Post-ra hívtuk a findAll-t)
-                        required: true,
-                        // Továbbá megmondjuk, hogy a gyerekből (Category) semmilyen mezőt nem akarunk látni, csak a bejegyzésre vagyunk kíváncsiak
-                        attributes: [],
-                        //through: { attributes: [] },
-                    },
-                ],
-            }),
-            // JSON.stringify testreszabása
-            null,
-            4
-        )
-    );   
+    // console.log(
+    //     JSON.stringify(
+    //         await Post.findAll({
+    //             // A bejegyzés minden mezőjét lekérjük, kivéve a timestamp-eket
+    //             attributes: {
+    //                 exclude: ["createdAt", "updatedAt"],
+    //             },
+    //             include: [
+    //                 {
+    //                     model: Category,
+    //                     // Megköveteljük, hogy a szülőhöz tartozzon a gyerek (Post-hoz a Category, hiszen a Post-ra hívtuk a findAll-t)
+    //                     required: true,
+    //                     // Továbbá megmondjuk, hogy a gyerekből (Category) semmilyen mezőt nem akarunk látni, csak a bejegyzésre vagyunk kíváncsiak
+    //                     attributes: [],
+    //                     //through: { attributes: [] },
+    //                 },
+    //             ],
+    //         }),
+    //         // JSON.stringify testreszabása
+    //         null,
+    //         4
+    //     )
+    // );
+
+    // console.log((await User.findByPk(1)).checkPassword("alma"));
+    // console.log((await User.findByPk(1)).checkPassword("password"));
+
+    console.log((await User.findByPk(1)).toJSON());
 
 }) ()

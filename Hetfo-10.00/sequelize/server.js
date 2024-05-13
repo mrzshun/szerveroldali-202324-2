@@ -1,6 +1,6 @@
 const md5 = require('md5');
 const { User, Post, Category } = require('./models');
-const {readFileSync, readSync} = require('fs');
+const { readFileSync, readSync } = require('fs');
 
 const fastify = require('fastify')({
     logger: true
@@ -11,9 +11,9 @@ const mercurius = require('mercurius')
 
 
 fastify.register(mercurius, {
-  schema: readFileSync('./graphql/schema.gql').toString(),
-  resolvers: require('./graphql/resolvers'),
-  graphiql: true,
+    schema: readFileSync('./graphql/schema.gql').toString(),
+    resolvers: require('./graphql/resolvers'),
+    graphiql: true,
 })
 
 fastify.register(require('@fastify/jwt'), {
@@ -194,6 +194,102 @@ fastify.delete('/categories', async (request, reply) => {
     });
     reply.send(204);
 })
+
+fastify.get('/posts', async (request, reply) => {
+    const posts = await Post.findAll();
+    reply.send(posts);
+})
+
+fastify.get('/posts/:id', {
+    schema: {
+        params: {
+            type: 'object',
+            properties: {
+                id: {
+                    type: "number"
+                }
+            }
+        }
+    }
+}, async (request, reply) => {
+    const post = await Post.findByPk(request.params.id);
+    if (post == null) {
+        return reply.status(404).send({
+            message: "There is no post with the selected ID (".concat(request.params.id).concat(")"),
+        })
+    }
+    reply.send(post);
+})
+
+fastify.post('/posts', {
+    onRequest: [fastify.authenticate],
+    schema: {
+        body: {
+            type: 'object',
+            required: ['title', 'description', 'text'],
+            properties: {
+                title: { type: "string" },
+                description: { type: "string" },
+                text: { type: "string" },
+            }
+        }
+    }
+}, async (request, reply) => {
+    const { title, description, text } = request.body;
+    const user = await User.findByPk(request.user.payload.id);
+    const post = await user.createPost({ 
+        title: title,
+        description: description,
+        text: text
+    });
+    reply.send(post);
+})
+
+fastify.put('/posts/:id', {
+    onRequest: [fastify.authenticate],
+    schema: {
+        params: {
+            type: 'object',
+            properties: {
+                id: {
+                    type: "number"
+                }
+            }
+        },
+        body: {
+            type: 'object',
+            required: ['title', 'description', 'text'],
+            properties: {
+                title: { type: "string" },
+                description: { type: "string" },
+                text: { type: "string" },
+            }
+        }
+    }
+}, async (request, reply) => {
+    const post = await Post.findByPk(request.params.id);
+    if (post == null) {
+        return reply.status(404).send({
+            message: "There is no post with the selected ID (".concat(request.params.id).concat(")"),
+        })
+    }
+    const user = await post.getUser();
+    if(user.id != request.user.payload.id) {
+        return reply.status(401).send({
+            message: "The authenticated user is not the author of the post!",
+        });
+    }
+    const { title, description, text } = request.body;
+    await post.update({
+        title: title,
+        description: description,
+        text: text,
+    });
+    reply.send(post);
+})
+
+
+
 
 fastify.get('/:id', {
     schema: {
